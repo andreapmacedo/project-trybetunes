@@ -10,28 +10,28 @@ import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      user: '',
-      isLoggedIn: false,
-      loading: false,
-      searchResults: false,
-      artistSearch: '',
-      artistSearched: '',
-      albumsResult: [],
-    };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     user: '',
+  //     isLoggedIn: false,
+  //     loading: false,
+  //     searchResults: false,
+  //     artistSearch: '',
+  //     artistSearched: '',
+  //     albumsResult: [],
+  //   };
+  // }
 
   render() {
-    const {
-      user,
-      isLoggedIn,
-      loading,
-      artistSearch,
-      searchResults,
-      albumsResult,
-    } = this.state;
+    // const {
+    //   user,
+    //   isLoggedIn,
+    //   loading,
+    //   artistSearch,
+    //   searchResults,
+    //   albumsResult,
+    // } = this.state;
     return (
       <BrowserRouter>
         <Switch>

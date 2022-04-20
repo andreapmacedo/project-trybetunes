@@ -15,15 +15,15 @@ class Login extends React.Component {
             <div data-testid="page-login">
               Login
               <input
+                data-testid="login-name-input"
                 type="text"
                 name="user"
-                data-testid="login-name-input"
                 onChange={ handleChange }
                 value={ value }
               />
               <button
-                type="submit"
                 data-testid="login-submit-button"
+                type="submit"
                 disabled={ value.length < minLenght }
                 onClick={ userLogin }
               >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 import './app.css';
 import Login from './pages/Login';
 import Favorites from './pages/Favorites';
@@ -8,34 +8,81 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
+import { createUser } from './services/userAPI';
 
 class App extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     user: '',
-  //     isLoggedIn: false,
-  //     loading: false,
-  //     searchResults: false,
-  //     artistSearch: '',
-  //     artistSearched: '',
-  //     albumsResult: [],
-  //   };
+  constructor() {
+    super();
+    this.state = {
+      user: '',
+      loading: false,
+      logged: false,
+      // searchResults: false,
+      // artistSearch: '',
+      // artistSearched: '',
+      // albumsResult: [],
+    };
+  }
+
+  inputHandleChange = ({ target }) => {
+    const { value, name } = target;
+    this.setState({ [name]: value });
+  }
+
+  // userLogin = async () => {
+  //   console.log('userLogin');
+  //   const { user } = this.state;
+  //   this.setState(
+  //     { loading: true },
+  //     async () => {
+  //       await createUser({ name: user });
+  //       this.setState(
+  //         { loading: false },
+  //       );
+  //     },
+  //   );
   // }
 
+  userLogin = () => {
+    const { user } = this.state;
+    this.setState(
+      { loading: true },
+      async () => {
+        const newUser = await createUser({ name: user });
+        this.setState({
+          user: newUser,
+          loading: false,
+          logged: true,
+        });
+      },
+    );
+  }
+
   render() {
-    // const {
-    //   user,
-    //   isLoggedIn,
-    //   loading,
+    const {
+      user,
+      loading,
+      logged,
     //   artistSearch,
     //   searchResults,
     //   albumsResult,
-    // } = this.state;
+    } = this.state;
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" render={ () => <Login /> } />
+          <Route
+            exact
+            path="/"
+            render={ (props) => (<Login
+              { ...props }
+              handleChange={ this.inputHandleChange }
+              value={ user }
+              userLogin={ this.userLogin }
+              loading={ loading }
+            />) }
+          >
+            { logged && <Redirect to="/search" /> }
+          </Route>
           <Route exact path="/search" render={ () => <Search /> } />
           <Route exact path="/album/:id" render={ () => <Album /> } />
           <Route exact path="/favorites" render={ () => <Favorites /> } />

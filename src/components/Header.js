@@ -36,14 +36,23 @@ class Header extends React.Component {
         { loading && <Loading />}
         { !loading
           && (
-            <div>
-              <Link to="/search" data-testid="link-to-search">Pesquisa</Link>
-              <Link to="/favorites" data-testid="link-to-favorites">Favoritas</Link>
-              <Link to="/profile" data-testid="link-to-profile">Perfil</Link>
-              <p data-testid="header-user-name">
-                { user.name }
-              </p>
-            </div>
+            <section>
+              <div className="title">
+                <h1>Trybetunes</h1>
+                <p data-testid="header-user-name">{ user.name }</p>
+              </div>
+              <nav>
+                <div>
+                  <Link data-testid="link-to-search" to="/search">Pesquisa</Link>
+                </div>
+                <div>
+                  <Link data-testid="link-to-favorites" to="/favorites">Favoritas</Link>
+                </div>
+                <div>
+                  <Link data-testid="link-to-profile" to="/profile">Perfil</Link>
+                </div>
+              </nav>
+            </section>
           )}
       </header>
     );

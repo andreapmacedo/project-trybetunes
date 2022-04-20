@@ -1,10 +1,14 @@
 import React from 'react';
-// import Header from '../components/Header';
+import { Fragment } from 'react/cjs/react.production.min';
+import Header from '../components/Header';
 
 class ProfileEdit extends React.Component {
   render() {
     return (
-      <div data-testid="page-profile-edit">ProfileEdit</div>
+      <Fragment>
+        <Header />
+        <div data-testid="page-profile-edit">ProfileEdit</div>
+      </Fragment>
     );
   }
 }

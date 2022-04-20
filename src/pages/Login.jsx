@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Loading from '../components/Loading';
 
 class Login extends React.Component {
   render() {
@@ -7,7 +8,8 @@ class Login extends React.Component {
     const minLenght = 3;
     return (
       <section>
-        {loading && <p>Carregando...</p> }
+        {/* {loading && <p>Carregando...</p> } */}
+        {loading && <Loading /> }
         {!loading
           && (
             <div data-testid="page-login">

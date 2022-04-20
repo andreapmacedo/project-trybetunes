@@ -1,9 +1,14 @@
 import React from 'react';
+import { Fragment } from 'react/cjs/react.development';
+import Header from '../components/Header';
 
 class Profile extends React.Component {
   render() {
     return (
-      <p data-testid="page-profile">Profile</p>
+      <Fragment>
+        <p data-testid="page-profile">Profile</p>
+        <Header />
+      </Fragment>
     );
   }
 }

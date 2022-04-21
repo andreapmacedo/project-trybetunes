@@ -24,7 +24,7 @@ class Search extends React.Component {
   searchArtists = async () => {
     const { artist } = this.state;
     const albums = await searchAlbumsAPI(artist);
-    console.log(albums);
+    // console.log(albums);
     this.setState(
       // { loading: true },
       async () => {
@@ -46,16 +46,17 @@ class Search extends React.Component {
     // if (albumsResult.length === 0) return <p>Nenhum álbum foi encontrado</p>;
     return albumsResult.map((album) => (
       <div key={ album.collectionId }>
-        <p>{album.artistName}</p>
-        <img src={ album.artworkUrl100 } alt={ album.collectionName } />
-        <div>
-          <h2>{album.collectionName}</h2>
-          <p>{album.artistName}</p>
-        </div>
+        {/* <p>{album.artistName}</p> */}
         <Link
           data-testid={ `link-to-album-${album.collectionId}` }
           to={ `/album/${album.collectionId}` }
-        />
+        >
+          <div>
+            <h2>{`${album.artistName}`}</h2>
+            <h4>{`Album: ${album.collectionName}`}</h4>
+          </div>
+          <img src={ album.artworkUrl100 } alt={ album.collectionName } />
+        </Link>
       </div>
     ));
   }
@@ -67,28 +68,6 @@ class Search extends React.Component {
   //       <h1>{ `Resultado de álbuns de: ${artist}` }</h1>
   //       {this.renderAlbums()}
   //     </section>);
-  // }
-
-  // populateAlbums = () => {
-  //   const { albumsResult, artist } = this.state;
-  //   // console.log(albumsResult);
-  //   // albumsResult.map((album) => console.log(album.artistName));
-  //   // if (albumsResult.length === 0) return <p>Nenhum álbum foi encontrado</p>;
-  //   // <h1>{ `Resultado de álbuns de: ${artist}` }</h1>;
-  //   const albums = albumsResult.map((album) => (
-  //     <div key={ album.collectionId }>
-  //       <Link
-  //         data-testid={ `link-to-album-${album.collectionId}` }
-  //         to={ `/album/${album.collectionId}` }
-  //       />
-  //       <p>{album.artistName}</p>
-  //       <img src={ album.artworkUrl100 } alt={ album.collectionName } />
-  //       <div>
-  //         <h2>{album.collectionName}</h2>
-  //         <p>{album.artistName}</p>
-  //       </div>
-  //     </div>
-  //   ));
   // }
 
   render() {
@@ -118,7 +97,6 @@ class Search extends React.Component {
             { albums.length !== 0
               // && <p>{ `Resultado de álbuns de: ${artist}` }</p> }
               && <p>{ `Resultado de álbuns de: ${artistSearched}` }</p> }
-            {/* {albums.length === 0 && <p>Nenhum álbum foi encontrado</p>} */}
             {(albums.length === 0 && searchResults) && <p>Nenhum álbum foi encontrado</p>}
             { albums }
           </div>

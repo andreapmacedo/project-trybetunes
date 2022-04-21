@@ -17,10 +17,6 @@ class App extends React.Component {
       user: '',
       loading: false,
       logged: false,
-      // searchResults: false,
-      // artistSearch: '',
-      // artistSearched: '',
-      // albumsResult: [],
     };
   }
 
@@ -63,9 +59,6 @@ class App extends React.Component {
       user,
       loading,
       logged,
-    //   artistSearch,
-    //   searchResults,
-    //   albumsResult,
     } = this.state;
     return (
       <BrowserRouter>
@@ -84,7 +77,7 @@ class App extends React.Component {
             { logged && <Redirect to="/search" /> }
           </Route>
           <Route exact path="/search" render={ () => <Search /> } />
-          <Route exact path="/album/:id" render={ () => <Album /> } />
+          <Route exact path="/album/:id" render={ (props) => <Album { ...props } /> } />
           <Route exact path="/favorites" render={ () => <Favorites /> } />
           <Route exact path="/profile" render={ () => <Profile /> } />
           <Route exact path="/profile/edit" render={ () => <ProfileEdit /> } />

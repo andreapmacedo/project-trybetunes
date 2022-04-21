@@ -25,7 +25,8 @@ class Album extends Component {
     const { match: { params: { id } } } = this.props;
     const musics = await getMusics(id);
     const filteredMusics = musics.filter((music) => music.trackId !== undefined);
-    console.log(musics);
+    // console.log(musics);
+    // console.log(filteredMusics);
     this.setState({
       musicsList: filteredMusics,
       artistName: musics[0].artistName,
@@ -38,29 +39,31 @@ class Album extends Component {
     return (
       <Fragment>
         <Header />
-        { loading && <Loading /> }
-        <div>
-          <h1>
-            Album
-            {' '}
-            {albumName}
-            {' '}
-          </h1>
+        <div data-testid="page-album">
+          { loading && <Loading /> }
           <div>
-            <h2 data-testid="album-name">{ albumName }</h2>
-            <h3 data-testid="artist-name">{ artistName }</h3>
-          </div>
-          <div>
-            {
-              musicsList
-                .map((track) => (
-                  <MusicCard
-                    key={ track.trackId }
-                    trackName={ track.trackName }
-                    previewUrl={ track.previewUrl }
-                    // trackId={ track.trackId }
-                  />))
-            }
+            <h1>
+              Album
+              {' '}
+              {albumName}
+              {' '}
+            </h1>
+            <div>
+              <h2 data-testid="album-name">{ albumName }</h2>
+              <h3 data-testid="artist-name">{ artistName }</h3>
+            </div>
+            <div>
+              {
+                musicsList
+                  .map((track) => (
+                    <MusicCard
+                      key={ track.trackId }
+                      trackName={ track.trackName }
+                      previewUrl={ track.previewUrl }
+                      // trackId={ track.trackId }
+                    />))
+              }
+            </div>
           </div>
         </div>
       </Fragment>

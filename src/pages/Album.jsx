@@ -11,6 +11,7 @@ class Album extends Component {
     super();
     this.state = {
       loading: false,
+      artworkUrl100: '',
       artistName: '',
       albumName: '',
       musicsList: [],
@@ -31,35 +32,37 @@ class Album extends Component {
       musicsList: filteredMusics,
       artistName: musics[0].artistName,
       albumName: musics[0].collectionName,
+      artworkUrl100: musics[0].artworkUrl100,
     });
   }
 
   render() {
-    const { artistName, albumName, musicsList, loading } = this.state;
+    const { artistName, albumName, musicsList, loading, artworkUrl100 } = this.state;
     return (
       <Fragment>
         <Header />
         <div data-testid="page-album">
           { loading && <Loading /> }
           <div>
-            <h1>
-              Album
-              {' '}
-              {albumName}
-              {' '}
-            </h1>
+            <h1 data-testid="artist-name">{ artistName }</h1>
+            <h3>
+              {/* {`Album: ${albumName} `} */}
+            </h3>
             <div>
               <h2 data-testid="album-name">{ albumName }</h2>
-              <h3 data-testid="artist-name">{ artistName }</h3>
+            </div>
+            <div>
+              <img src={ artworkUrl100 } alt={ albumName } />
             </div>
             <div>
               {
                 musicsList
                   .map((track) => (
                     <MusicCard
+                      track={ track }
                       key={ track.trackId }
-                      trackName={ track.trackName }
-                      previewUrl={ track.previewUrl }
+                      // trackName={ track.trackName }
+                      // previewUrl={ track.previewUrl }
                       // trackId={ track.trackId }
                     />))
               }

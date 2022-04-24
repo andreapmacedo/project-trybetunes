@@ -1,47 +1,67 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong, removeSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
   constructor() {
     super();
     this.state = {
+      isFavorite: false,
       loading: false,
-      favorite: false,
+      // trackFavorites: [],
     };
   }
 
-  hendleFavorite = ({ target }) => {
-    this.setState({
-      favorite: target.checked,
-    }, () => this.setFavorite());
+  componentDidMount() {
+    this.getFavorite();
   }
 
-  setFavorite = async () => {
-    const { favorite } = this.state;
-    const { track } = this.props;
+  handleFavorite = async (track, isFavorite) => {
     this.setState({ loading: true });
-    if (favorite) {
+    if (isFavorite === false) {
       await addSong(track);
+      this.setState({
+        isFavorite: true,
+      });
     } else {
       await removeSong(track);
+      this.setState({
+        isFavorite: false,
+      });
     }
     this.setState({ loading: false });
   }
 
+  getFavorite = async () => {
+    const { track } = this.props;
+    this.setState({ loading: true });
+    const favoriteSongs = await getFavoriteSongs();
+    const isFavorite = favoriteSongs.some((song) => song.trackId === track.trackId);
+    this.setState({ isFavorite }, () => this.setState({ loading: false }));
+  }
+
   render() {
     const { track } = this.props;
+    // const { track, onChangeFavorite, favoritesList } = this.props;
     const { trackId, trackName, previewUrl } = track;
+    const { isFavorite, loading } = this.state;
+    // const trackFound = track.
+    // console.log(favoritesList);
+    // const isFavorite = favoritesList.some((favorite) => favorite.trackId === trackId);
+    // old
+    // const isFavorite = favoritesList.some((favorite) => {
+    //   console.log(trackId === favorite.artistId);
+    //   // console.log(trackId);
+    //   // console.log(favorite.artistId);
+    //   return favorite.trackId === trackId;
+    // });
+    // console.log(isFavorite);
     // const {
     //   trackName,
     //   previewUrl,
     //   trackId,
     // } = this.props;
-    const {
-      favorite,
-      loading,
-    } = this.state;
 
     return (
       <>
@@ -65,8 +85,9 @@ class MusicCard extends Component {
                 data-testid={ `checkbox-music-${trackId}` }
                 type="checkbox"
                 name={ `checkbox-music-${trackId}` }
-                checked={ favorite }
-                onChange={ (event) => this.hendleFavorite(event) }
+                checked={ isFavorite }
+                // onChange={ () => onChangeFavorite(track, isFavorite) }
+                onChange={ () => this.handleFavorite(track, isFavorite) }
               />
               Favorita
             </label>
@@ -78,6 +99,8 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
+  // favoritesList: PropTypes.arrayOf.isRequired,
+  // handleFavorite: PropTypes.func.isRequired,
   track: PropTypes.shape({
     trackName: PropTypes.string,
     previewUrl: PropTypes.string,

@@ -3,8 +3,9 @@ import { Fragment } from 'react/cjs/react.production.min';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
-import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
+import MusicCard from '../components/MusicCard';
+// import { addSong, removeSong } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -15,6 +16,7 @@ class Album extends Component {
       artistName: '',
       albumName: '',
       musicsList: [],
+      // trackFavorites: [],
     };
   }
 
@@ -24,20 +26,68 @@ class Album extends Component {
 
   fetchAlbumInfo = async () => {
     const { match: { params: { id } } } = this.props;
-    const musics = await getMusics(id);
-    const filteredMusics = musics.filter((music) => music.trackId !== undefined);
-    // console.log(musics);
-    // console.log(filteredMusics);
+    const tracks = await getMusics(id);
+    const filteredTracks = tracks.filter((track) => track.trackId !== undefined);
+    // console.log(tracks);
+    // console.log(filteredTracks);
     this.setState({
-      musicsList: filteredMusics,
-      artistName: musics[0].artistName,
-      albumName: musics[0].collectionName,
-      artworkUrl100: musics[0].artworkUrl100,
+      musicsList: filteredTracks,
+      artistName: tracks[0].artistName,
+      albumName: tracks[0].collectionName,
+      artworkUrl100: tracks[0].artworkUrl100,
     });
   }
 
+  // handleFavorite = async (track, isFavorite) => {
+  //   const { trackFavorites } = this.state;
+  //   // console.log(trackFavorites);
+  //   // console.log(track.trackId);
+  //   // console.log(isFavorite);
+  //   this.setState({ loading: true });
+  //   if (isFavorite === false) {
+  //     await addSong(track);
+  //     this.setState({
+  //       trackFavorites: [...trackFavorites, track],
+  //     });
+  //   } else {
+  //     await removeSong(track);
+  //     const favoriteListFiltered = trackFavorites
+  //       .filter((trackFavorite) => trackFavorite.trackId !== track.trackId);
+  //     this.setState({
+  //       trackFavorites: favoriteListFiltered,
+  //     });
+  //   }
+  //   this.setState({ loading: false });
+  // }
+
+  // old
+  // handleFavorite = (track, isFavorite) => {
+  //   const { trackFavorites } = this.state;
+  //   console.log(trackFavorites);
+  //   console.log(track.trackId);
+  //   console.log(isFavorite);
+  //   if (isFavorite === false) {
+  //     this.setState({
+  //       trackFavorites: [...trackFavorites, track],
+  //     });
+  //   } else {
+  //     const favoriteListFiltered = trackFavorites
+  //       .filter((trackFavorite) => trackFavorite.trackId !== track.trackId);
+  //     this.setState({
+  //       trackFavorites: favoriteListFiltered,
+  //     });
+  //   }
+  // }
+
   render() {
-    const { artistName, albumName, musicsList, loading, artworkUrl100 } = this.state;
+    const {
+      artistName,
+      albumName,
+      musicsList,
+      loading,
+      artworkUrl100,
+      // trackFavorites,
+    } = this.state;
     return (
       <Fragment>
         <Header />
@@ -61,6 +111,8 @@ class Album extends Component {
                     <MusicCard
                       track={ track }
                       key={ track.trackId }
+                      // onChangeFavorite={ this.handleFavorite }
+                      // favoritesList={ trackFavorites }
                       // trackName={ track.trackName }
                       // previewUrl={ track.previewUrl }
                       // trackId={ track.trackId }

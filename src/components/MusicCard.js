@@ -9,7 +9,6 @@ class MusicCard extends Component {
     this.state = {
       isFavorite: false,
       loading: false,
-      // trackFavorites: [],
     };
   }
 
@@ -86,7 +85,6 @@ class MusicCard extends Component {
                 type="checkbox"
                 name={ `checkbox-music-${trackId}` }
                 checked={ isFavorite }
-                // onChange={ () => onChangeFavorite(track, isFavorite) }
                 onChange={ () => this.handleFavorite(track, isFavorite) }
               />
               Favorita
